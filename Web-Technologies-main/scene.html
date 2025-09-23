@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scene with Map</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+
+    #container {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 1;
+    }
+
+    .revealImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 80%;
+      opacity: 0;
+      transition: opacity 2s ease;
+      z-index: 2;
+      border-radius: 20px;
+      display: none;
+    }
+
+    #backButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      z-index: 5;
+      display: none;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <iframe src="https://my.spline.design/timefoldodyssey-Pvlf5G1hyx2p3SMULGnEnh9Y/" allowfullscreen></iframe>
+
+    <!-- Images with usemap -->
+    <img id="image1" class="revealImage" src="i1.png" usemap="#map1" alt="Image 1">
+    <img id="image2" class="revealImage" src="i2.png" usemap="#map2" alt="Image 2">
+    <img id="image3" class="revealImage" src="i3.png" usemap="#map3" alt="Image 3">
+    <img id="image4" class="revealImage" src="i4.png" usemap="#map4" alt="Image 4">
+
+    <!-- Maps with clickable regions -->
+    <map name="map1">
+      <area shape="rect" coords="539,3,3,357" href="#" onclick="handleMapClick(0); return false;">
+    </map>
+
+    <map name="map2">
+      <area shape="rect" coords="416,3,3,624" href="#" onclick="handleMapClick(1); return false;">
+    </map>
+
+    <map name="map3">
+      <area shape="rect" coords="415,622,3,1" href="#" onclick="handleMapClick(2); return false;">
+    </map>
+
+    <map name="map4">
+      <area shape="rect" coords="3,3,567,569" href="#" onclick="handleMapClick(3); return false;">
+    </map>
+
+    <button id="backButton">Back</button>
+  </div>
+
+  <script>
+    const imageIds = ["image1", "image2", "image3", "image4"];
+    const backButton = document.getElementById("backButton");
+
+    function showImage(index) {
+      const img = document.getElementById(imageIds[index]);
+      if (!img) return;
+      img.style.display = "block";
+      void img.offsetWidth;
+      img.style.opacity = "1";
+    }
+
+    function handleMapClick(index) {
+      const img = document.getElementById(imageIds[index]);
+      img.style.opacity = "0";
+      setTimeout(() => {
+        img.style.display = "none";
+        if (index + 1 < imageIds.length) {
+          setTimeout(() => {
+            showImage(index + 1);
+          }, 2000);
+        }
+      }, 2000);
+    }
+
+    setTimeout(() => {
+      showImage(0);
+      backButton.style.display = "block";
+    }, 12000);
+
+    backButton.addEventListener("click", () => {
+      location.href = "exercise1.html";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact / Feedback - Capsulink (Internal CSS)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff8dc;
+            margin: 0;
+            padding: 30px;
+        }
+        header {
+            background-color: #8b0000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        main {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #bbb;
+            font-size: 16px;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #8b0000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #a52a2a;
+        }
+        .social-links {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .social-links a {
+            margin: 0 10px;
+            color: #8b0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .faqs {
+            margin-top: 40px;
+        }
+        .faqs h3 {
+            margin-bottom: 10px;
+            color: #8b0000;
+        }
+        .faqs p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Contact & Feedback</h1>
+</header>
+
+<main>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="Your full name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="your.email@example.com" required />
+
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" placeholder="Write your feedback or questions here..." required></textarea>
+
+        <button type="submit">Send Feedback</button>
+    </form>
+
+    <section class="social-links" aria-label="Social Media Links">
+        <h3>Follow us on:</h3>
+        <a href="#" target="_blank" rel="noopener noreferrer">Facebook</a> |
+        <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a> |
+        <a href="#" target="_blank" rel="noopener noreferrer">Instagram</a>
+    </section>
+
+    <section class="faqs" aria-label="Frequently Asked Questions">
+        <h2>FAQs</h2>
+        <h3>How do I create a time capsule?</h3>
+        <p>Use the Create Capsule page to upload your memories and set an opening date.</p>
+        <h3>Is my data secure?</h3>
+        <p>Yes, we use encryption and secure storage to keep your memories safe.</p>
+        <h3>Can I share my capsules?</h3>
+        <p>Yes, you can share your capsules with family and friends securely.</p>
+    </section>
+</main>
+
+</body>
+</html>
+

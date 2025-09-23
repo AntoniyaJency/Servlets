@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Capsulink – Digital Time Capsule</title>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Orbitron:700" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(135deg, #3a1c71 0%, #d76d77 55%, #ffaf7b 100%);
+      min-height: 100vh;
+      font-family: 'Montserrat', Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .glass-card {
+      background: rgba(255,255,255,0.20);
+      box-shadow: 0 8px 32px 0 rgba(31,38,135,0.20);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 1200px 20px 24px 20px;
+      max-width: 420px;
+      width: 95vw;
+      color: #1a1a2e;
+      border: 1.5px solid rgba(255,255,255,0.10);
+      margin: 16px;
+    }
+    h2 {
+      text-align: center;
+      font-family: 'Orbitron', Arial, sans-serif;
+      font-size: 2rem;
+      letter-spacing: 1.4px;
+      margin-bottom: 18px;
+      color: #fff;
+      text-shadow: 0 2px 12px #0002;
+    }
+    .emoji {
+      font-size: 2em;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 19px;
+      width: 100%;
+    }
+    .form-group label {
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: #29283edd;
+      font-size: 1em;
+      margin-bottom: 5px;
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: rgba(255,255,255,0.44);
+      border: 1.5px solid transparent;
+      padding: 11px 14px;
+      border-radius: 8px;
+      font-size: 1em;
+      margin-bottom: 4px;
+      outline: none;
+      box-shadow: 0 1px 5px 0 rgba(31, 38, 135, 0.07);
+      transition: box-shadow 0.2s, border 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border: 1.5px solid #4f5bd5;
+      background: rgba(255,255,255,0.67);
+    }
+    .form-group textarea {
+      min-height: 68px;
+      resize: vertical;
+    }
+    .error {
+      min-height: 18px;
+      color: #e53935;
+      font-size: 0.96em;
+      font-weight: 500;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      display: block;
+    }
+    .terms-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 13px;
+    }
+    .terms-group input[type=checkbox] {
+      margin-right: 7px;
+      accent-color: #7f53ac;
+    }
+    button[type="submit"] {
+      background: linear-gradient(90deg, #192c75dd, #7f53acdd 70%);
+      color: #fff;
+      font-family: 'Orbitron', Arial, sans-serif;
+      font-size: 1.08em;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+      border: none;
+      padding: 14px 0;
+      width: 100%;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.18s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px 0 rgba(31,38,135,0.11);
+    }
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #7f53ac 20%, #192c75 95%);
+      box-shadow: 0 6px 18px 0 rgba(31,38,135,0.18);
+    }
+    @media (max-width: 500px) {
+      .glass-card {
+        padding: 12vw 2vw;
+        font-size: 0.97em;
+      }
+      h2 {
+        font-size: 1.26rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <form class="glass-card" id="capsuleForm" autocomplete="off" novalidate>
+    <h2><span class="emoji">🕰️</span>Capsulink Capsule</h2>
+    <div class="form-group">
+      <label for="name">👤 Name *</label>
+      <input type="text" id="name" name="name" maxlength="40" required>
+      <span class="error" id="nameError"></span>
+    </div>
+    <div class="form-group">
+      <label for="email">📧 Email *</label>
+      <input type="email" id="email" name="email" required>
+      <span class="error" id="emailError"></span>
+    </div>
+    <div class="form-group">
+      <label for="dob">🎂 Date of Birth *</label>
+      <input type="date" id="dob" name="dob" required>
+      <span class="error" id="dobError"></span>
+    </div>
+    <div class="form-group">
+      <label for="country">🌐 Country</label>
+      <input type="text" id="country" name="country" maxlength="40">
+      <span class="error"></span>
+    </div>
+    <div class="form-group">
+      <label for="title">📝 Message Title *</label>
+      <input type="text" id="title" name="title" required maxlength="60">
+      <span class="error" id="titleError"></span>
+    </div>
+    <div class="form-group">
+      <label for="message">💬 Message (max 500) *</label>
+      <textarea id="message" name="message" required maxlength="500"></textarea>
+      <span class="error" id="messageError"></span>
+    </div>
+    <div class="form-group">
+      <label for="open_date">⏳ Open Date *</label>
+      <input type="date" id="open_date" name="open_date" required>
+      <span class="error" id="openDateError"></span>
+    </div>
+    <div class="form-group">
+      <label for="relationship">🤝 Relationship to Recipient *</label>
+      <select id="relationship" name="relationship" required>
+        <option value="">-- Select --</option>
+        <option value="self">Self</option>
+        <option value="family">Family</option>
+        <option value="friend">Friend</option>
+        <option value="other">Other</option>
+      </select>
+      <span class="error" id="relationshipError"></span>
+    </div>
+    <div class="form-group">
+      <label for="recipientName">👥 Recipient Name *</label>
+      <input type="text" id="recipientName" name="recipientName" required maxlength="40">
+      <span class="error" id="recipientNameError"></span>
+    </div>
+    <div class="form-group">
+      <label for="recipientEmail">✉️ Recipient Email *</label>
+      <input type="email" id="recipientEmail" name="recipientEmail" required>
+      <span class="error" id="recipientEmailError"></span>
+    </div>
+    <div class="form-group">
+      <label for="favMemory">✨ Favorite Memory (optional)</label>
+      <textarea id="favMemory" name="favMemory" maxlength="300"></textarea>
+      <span class="error"></span>
+    </div>
+    <div class="form-group">
+      <label for="file">📁 Upload File (optional)</label>
+      <input type="file" id="file" name="file" accept="image/*,video/*,.pdf,.doc,.docx">
+      <span class="error"></span>
+    </div>
+    <div class="form-group">
+      <label for="passcode">🔒 Passcode (for Capsule) *</label>
+      <input type="password" id="passcode" name="passcode" required minlength="4" maxlength="12">
+      <span class="error" id="passcodeError"></span>
+    </div>
+    <div class="form-group terms-group">
+      <input type="checkbox" id="terms" name="terms" required>
+      <label for="terms" style="font-weight:normal;margin: 0;">I accept the terms & privacy *</label>
+      <span class="error" id="termsError"></span>
+    </div>
+    <button type="submit">Send to Future 🚀</button>
+  </form>
+  <script>
+    document.getElementById('capsuleForm').addEventListener('submit', function(e) {
+      let valid = true;
+      // Name
+      if(document.getElementById('name').value.trim().length < 2) {
+        valid = false;
+        document.getElementById('nameError').textContent = "Name must be at least 2 characters.";
+      } else {
+        document.getElementById('nameError').textContent = "";
+      }
+    //   // Email
+    //   const emailPattern = /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/;
+    //   if(!emailPattern.test(document.getElementById('email').value)) {
+    //     valid = false;
+    //     document.getElementById('emailError').textContent = "Enter a valid email.";
+    //   } else {
+    //     document.getElementById('emailError').textContent = "";
+    //   }
+      // DOB
+      if(document.getElementById('dob').value === "" || new Date(document.getElementById('dob').value) >= new Date()) {
+        valid = false;
+        document.getElementById('dobError').textContent = "DOB must be before today.";
+      } else {
+        document.getElementById('dobError').textContent = "";
+      }
+      // Title
+      if(document.getElementById('title').value.trim().length === 0 || 
+         document.getElementById('title').value.trim().length > 60) {
+        valid = false;
+        document.getElementById('titleError').textContent = "Title required, max 60 chars.";
+      } else {
+        document.getElementById('titleError').textContent = "";
+      }
+      // Message
+      if(document.getElementById('message').value.trim().length === 0 || 
+         document.getElementById('message').value.trim().length > 500) {
+        valid = false;
+        document.getElementById('messageError').textContent = "Message required, max 500 chars.";
+      } else {
+        document.getElementById('messageError').textContent = "";
+      }
+      // Open Date
+      if(document.getElementById('open_date').value === "" || new Date(document.getElementById('open_date').value) <= new Date()) {
+        valid = false;
+        document.getElementById('openDateError').textContent = "Open date must be future date.";
+      } else {
+        document.getElementById('openDateError').textContent = "";
+      }
+      // Relationship
+      if(document.getElementById('relationship').value == '') {
+        valid = false;
+        document.getElementById('relationshipError').textContent = "Select relationship.";
+      } else {
+        document.getElementById('relationshipError').textContent = "";
+      }
+      // Recipient Name
+      if(document.getElementById('recipientName').value.trim().length < 2) {
+        valid = false;
+        document.getElementById('recipientNameError').textContent = "At least 2 characters.";
+      } else {
+        document.getElementById('recipientNameError').textContent = "";
+      }
+      // Recipient Email
+      if(!emailPattern.test(document.getElementById('recipientEmail').value)) {
+        valid = false;
+        document.getElementById('recipientEmailError').textContent = "Valid recipient email needed.";
+      } else {
+        document.getElementById('recipientEmailError').textContent = "";
+      }
+      // Passcode
+      if(document.getElementById('passcode').value.length < 4 || document.getElementById('passcode').value.length > 12) {
+        valid = false;
+        document.getElementById('passcodeError').textContent = "Passcode: 4-12 chars.";
+      } else {
+        document.getElementById('passcodeError').textContent = "";
+      }
+      // Terms
+      if(!document.getElementById('terms').checked) {
+        valid = false;
+        document.getElementById('termsError').textContent = "Accept the terms to continue.";
+      } else {
+        document.getElementById('termsError').textContent = "";
+      }
+      if(!valid) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
+

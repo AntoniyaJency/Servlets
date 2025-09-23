@@ -1,0 +1,91 @@
+#backButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      z-index: 1500;
+      display: block;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+  .nav-list li a {
+    font-size: 16px;
+    padding: 8px 12px;
+  }
+
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #121212, #1e1e1e);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid #ff9900;
+  z-index: 1000;
+  padding: 15px 0px;
+  font-family: 'Orbitron', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 50px;
+}
+
+.nav-list li {
+  display: inline;
+}
+
+.nav-list li a {
+  color: #ff9900;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 8px;
+  position: relative;
+  transition: color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.nav-list li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 0%;
+  background: #ff9900;
+  border-radius: 8px;
+  transition: width 0.3s ease;
+}
+
+.nav-list li a:hover,
+.nav-list li a:focus {
+  color: #ffffff;
+  box-shadow: 0 0 8px #ff9900, 0 0 20px #ff9900;
+}
+
+.nav-list li a:hover::before,
+.nav-list li a:focus::before {
+  width: 100%;
+}
+
+body {
+  padding-top: 70px; /* space for navbar */
+  background-color: #0a0a0a; /* ensure dark background */
+  color: #ccc;
+}

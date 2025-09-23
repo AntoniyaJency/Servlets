@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Web Technologies Lab - Root Home</title>
+  <style>
+    /* Import Font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+    :root {
+      --text-color: #e0e0e0;
+      --accent: #4a90e2;
+      --card-bg: rgba(30, 30, 30, 0.85);
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    /* Fullscreen background */
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      border: none;
+    }
+
+    header {
+      text-align: center;
+      padding: 50px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      color: white;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #bbbbbb;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    section {
+      background-color: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 25px 30px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border);
+    }
+
+    section h2 {
+      margin-bottom: 10px;
+      color: var(--accent);
+      font-size: 1.3rem;
+    }
+
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 16px;
+      height: 100px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.4;
+    }
+
+    .btn:hover {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9rem;
+      color: #aaaaaa;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Spline background -->
+  <iframe id="bg" src="https://my.spline.design/particlenebula-GCN6jWE7OPDIBXCm8BwoPeCF/" frameborder="0"></iframe>
+
+  <header>
+    <h1>Web Technologies Laboratory</h1>
+    <p>Root Homepage | Antoniyajency J - 311123104013</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>About Me</h2>
+      <p>
+        I am Antoniya Jency J, a 3rd-year Computer Science student. This portal serves as the root entry point to my Web Technologies Laboratory record, showcasing the exercises and web concepts I’ve implemented.
+      </p>
+    </section>
+
+    <section>
+      <h2>About the Laboratory</h2>
+      <p>
+        This lab emphasizes practical understanding of web development using HTML, CSS, DHTML, Servlets, JSP, XML, and more. It covers both client-side and server-side components across 7 structured exercises.
+      </p>
+    </section>
+
+    <section>
+      <h2>Exercise Navigation</h2>
+      <div class="button-grid">
+        
+        <a href="exercise1.html" class="btn">Exercise 1: HTML Image Map</a>
+        <a href="exercise2.html" class="btn">Exercise 2: EXPLORING HTML ELEMENTS</a>
+        <a href="exercise3a.html" class="btn">Exercise 3A: CSS TYPES - INLINE CSS</a>
+        <a href="exercise3b.html" class="btn">Exercise 3B: CSS TYPES - INTERNAL CSS</a>
+        <a href="exercise3c.html" class="btn">Exercise 3C: CSS TYPES - EXTERNAL CSS</a>
+        <a href="exercise4.html" class="btn">Exercise 4: JAVASCRIPT VALIDATION</a>
+        <a href="exercise5.html" class="btn">Exercise 5: Java Servlets</a>
+        <a href="exercise6.html" class="btn">Exercise 6: JSP with Database</a>
+        <a href="exercise7.html" class="btn">Exercise 7: XML, Schema, XSLT</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Antoniyajency J | Department of CSE
+  </footer>
+
+</body>
+</html>

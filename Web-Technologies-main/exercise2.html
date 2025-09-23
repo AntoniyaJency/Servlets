@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Capsulink – Time Capsule</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Montserrat:wght@400;700&family=Great+Vibes&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0 20px 40px 20px;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(120deg, #f0e6d2, #fff7e6);
+      color: #5b4226;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 900px;
+      background: #fff;
+      padding: 50px 60px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(101, 67, 33, 0.15);
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      overflow: visible;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 72px;
+      margin: 0;
+      color: #7a5e2e;
+      text-shadow: 1px 1px 4px #c3b097;
+      letter-spacing: 2px;
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 24px;
+      color: #a67e3a;
+      margin-top: 8px;
+      margin-bottom: 50px;
+      letter-spacing: 1px;
+    }
+
+    /* Collage container with very tight spacing */
+    .collage {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      grid-template-rows: repeat(5, 140px);
+      gap: 4px;
+      justify-items: center;
+      position: relative;
+      margin-bottom: 50px;
+      width: 100%;
+      max-width: 740px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Collage images styling and overlap tweak */
+    .collage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 6px 15px rgba(82, 54, 27, 0.3);
+      filter: sepia(0.6);
+      transition: filter 0.2s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      margin: -6px; /* Overlap adjacent images for tighter look */
+    }
+
+    .collage img:hover,
+    .collage img:focus {
+      filter: sepia(0);
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 15px 35px rgba(101, 67, 33, 0.6);
+      z-index: 10;
+      outline: none;
+      margin: 0; /* Remove negative margin on hover for clarity */
+    }
+
+    /* Individual image positioning & rotations for collage effect */
+    .img1 { grid-column: 1 / 3; grid-row: 1 / 3; z-index: 3; }
+    .img2 { grid-column: 3 / 5; grid-row: 1 / 2; z-index: 2; transform: rotate(-3deg); }
+    .img3 { grid-column: 5 / 7; grid-row: 1 / 3; z-index: 1; transform: rotate(2deg); }
+    .img4 { grid-column: 2 / 4; grid-row: 3 / 5; z-index: 2; transform: rotate(-2deg); }
+    .img5 { grid-column: 4 / 6; grid-row: 2 / 4; z-index: 3; transform: rotate(1deg); }
+    .img6 { grid-column: 1 / 2; grid-row: 4 / 6; z-index: 2; transform: rotate(3deg); }
+    .img7 { grid-column: 2 / 4; grid-row: 5 / 6; z-index: 1; transform: rotate(-1deg); }
+    .img8 { grid-column: 5 / 6; grid-row: 4 / 5; z-index: 2; transform: rotate(-2deg); }
+    .img9 { grid-column: 6 / 7; grid-row: 4 / 6; z-index: 3; transform: rotate(2deg); }
+    .img10 { grid-column: 4 / 5; grid-row: 4 / 6; z-index: 3; transform: rotate(2deg); }
+
+    /* Tables and buttons styling */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 8px;
+      margin-bottom: 50px;
+      box-shadow: 0 8px 15px rgba(101, 67, 33, 0.1);
+      font-size: 17px;
+      table-layout: fixed;
+      word-wrap: break-word;
+    }
+
+    caption {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #7a5e2e;
+    }
+
+    th, td {
+      background: #faf4e7;
+      padding: 16px 20px;
+      border: none;
+      color: #5b4226;
+      text-align: center;
+      border-radius: 10px;
+    }
+
+    th {
+      background: #d7c7ac;
+      font-weight: 700;
+      font-family: 'Cormorant Garamond', serif;
+      letter-spacing: 0.7px;
+    }
+
+    tbody tr:hover td {
+      background: #f7e9c9;
+      box-shadow: inset 0 0 8px rgba(122, 94, 46, 0.3);
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .links {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .links a {
+      background: #7a5e2e;
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 18px;
+      text-decoration: none;
+      box-shadow: 0 5px 15px rgba(122, 94, 46, 0.3);
+      transition: background-color 0.4s ease, transform 0.3s ease, box-shadow 0.4s ease;
+      display: inline-block;
+    }
+
+    .links a:hover,
+    .links a:focus {
+      background: #c49f38;
+      color: #382900;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 25px rgba(196, 159, 56, 0.5);
+      outline: none;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 30px 25px;
+      }
+      h1 {
+        font-size: 48px;
+      }
+      h2 {
+        font-size: 18px;
+        margin-bottom: 30px;
+      }
+      .collage {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(9, 160px);
+        max-width: 100%;
+        gap: 8px;
+      }
+      .collage img {
+        transform: none !important;
+        margin: 0 !important;
+      }
+      /* stack images vertically in order */
+      .img1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+      .img2 { grid-column: 1 / 3; grid-row: 2 / 3; }
+      .img3 { grid-column: 1 / 3; grid-row: 3 / 4; }
+      .img4 { grid-column: 1 / 3; grid-row: 4 / 5; }
+      .img5 { grid-column: 1 / 3; grid-row: 5 / 6; }
+      .img6 { grid-column: 1 / 3; grid-row: 6 / 7; }
+      .img7 { grid-column: 1 / 3; grid-row: 7 / 8; }
+      .img8 { grid-column: 1 / 3; grid-row: 8 / 9; }
+      .img9 { grid-column: 1 / 3; grid-row: 9 / 10; }
+      .img9 { grid-column: 1 / 3; grid-row: 10 / 11; }
+      table {
+        font-size: 14px;
+      }
+      .links {
+        flex-direction: column;
+        gap: 20px;
+      }
+      .links a {
+        padding: 10px 20px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 20px 10px 30px 10px;
+      }
+      .container {
+        padding: 25px 15px;
+      }
+      h1 {
+        font-size: 38px;
+      }
+      h2 {
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      table {
+        font-size: 13px;
+      }
+      .links a {
+        font-size: 15px;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- <my-navbar></my-navbar>
+  <script src="navbar.js"></script> -->
+  
+  <div class="container" role="main">
+    <br>
+    <h1>Capsulink</h1>
+    <h2>A Digital Time Capsule for Your Memories</h2>
+
+    <div class="collage" aria-label="Image collage of memories">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Old Family Memories" class="img1" tabindex="0" />
+      <img src="https://images.hdqwalls.com/wallpapers/bthumb/new-memories-41.jpg" alt="Time Capsule Archive" class="img2" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=400&q=80" alt="Smiling Friends Group" class="img3" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80" alt="Writing Letters" class="img4" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1463320726281-696a485928c7?auto=format&fit=crop&w=400&q=80" alt="Vintage Memories" class="img5" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80" alt="Old Photographs" class="img6" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80" alt="Memory Box" class="img7" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=400&q=80" alt="Handwritten Letters" class="img8" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1744690176524-62580857164d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Time Capsule Concept" class="img9" tabindex="0" />
+      <img src="https://images.unsplash.com/photo-1750801321923-a93fd5e5bf21?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Time Capsule Concept" class="img10" tabindex="0" />
+    </div>
+
+    <table>
+      <caption>Capsulink: User Features</caption>
+      <thead>
+        <tr>
+          <th scope="col">Feature</th>
+          <th scope="col">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Create Capsule</td>
+          <td>Build time capsules with photos, letters, or documents.</td>
+        </tr>
+        <tr>
+          <td>Set Release Date</td>
+          <td>Choose when your capsule should become accessible.</td>
+        </tr>
+        <tr>
+          <td>Add Recipients</td>
+          <td>Decide who can open each capsule when the time comes.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table>
+      <caption>Popular Capsule Ideas</caption>
+      <thead>
+        <tr>
+          <th scope="col">Occasion</th>
+          <th scope="col">Typical Items</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Graduation</td>
+          <td>Letters, photos, future goals</td>
+        </tr>
+        <tr>
+          <td>Birthday</td>
+          <td>Video message, favorite memory</td>
+        </tr>
+        <tr>
+          <td>Anniversary</td>
+          <td>Photo albums, voice notes</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="links" role="navigation" aria-label="Capsulink navigation links">
+      <a href="exercise3b.html" target="_blank" rel="noopener noreferrer">Need Help?</a>
+      <a href="exercise3a.html" target="_blank" rel="noopener noreferrer">My capsules</a>
+    </div>
+  </div>
+</body>
+</html>
