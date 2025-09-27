@@ -15,21 +15,26 @@ public class p12_db3 extends HttpServlet{
         Statement stmt=null;
         PrintWriter out = response.getWriter();
         //String department = request.getParameter("course");
+        
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
+            
             //create a database connection using jdbc , port no used here is 3306
             // database name is college and username is root , there is no password
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/college","root", "");
             stmt = conn.createStatement();
+            
             PreparedStatement pstmt = conn.prepareStatement("insert into department values(?, ?, ?)");    
             pstmt.setString(1, request.getParameter("depid"));
+            
               // Same for second parameter
             pstmt.setString(2, request.getParameter("depname"));
             pstmt.setInt(3, Integer.valueOf(request.getParameter("depnos")));
             // Execute the insert command using executeUpdate()
             // to make changes in database
             pstmt.executeUpdate();
+           
             out.println("<html><body><p> Database Updated</p>");       
             //select data from table where dept matches the value given by user in form
             String sql = "SELECT * FROM department";

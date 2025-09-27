@@ -32,6 +32,59 @@
 
 
     <servlet>
+      <servlet-name>CapsHello</servlet-name>
+      <servlet-class>HelloServlet</servlet-class>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>CapsHello</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>CapsPricing</servlet-name>
+      <servlet-class>PricingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CapsPricing</servlet-name>
+        <url-pattern>/pricing</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>CapsCookieSet</servlet-name>
+      <servlet-class>SProg5</servlet-class>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>CapsCookieSet</servlet-name>
+        <url-pattern>/SP5</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>CapsCookieRead</servlet-name>
+      <servlet-class>SProg6</servlet-class>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>CapsCookieRead</servlet-name>
+        <url-pattern>/SP6</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>CapsHitGlobal</servlet-name>
+      <servlet-class>HitCountGlobal</servlet-class>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>CapsHitGlobal</servlet-name>
+        <url-pattern>/hit-global</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+      <servlet-name>CapsHitUser</servlet-name>
+      <servlet-class>HitCountPerUser</servlet-class>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>CapsHitUser</servlet-name>
+        <url-pattern>/hit-user</url-pattern>
+    </servlet-mapping>
+    <servlet>
       <servlet-name>Caps4</servlet-name>
       <servlet-class>SProg11</servlet-class>
     </servlet>  
