@@ -23,4 +23,23 @@ public class SProg12 extends HttpServlet
             System.out.println(e);
         }  
     }   
+    
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+    {  
+        try
+        {  
+            response.setContentType("text/html");  
+            PrintWriter out = response.getWriter();  
+            
+            //getting value from the query string  
+            String n=request.getParameter("uname");  
+            out.print("Hello "+n);  
+    
+            out.close();  
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }  
+    }
 } 
