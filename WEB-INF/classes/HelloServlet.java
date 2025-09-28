@@ -4,9 +4,10 @@ import javax.servlet.http.*;
 
 public class HelloServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        out.println("<html><head><title>Capsulink - Time Capsule Created</title>");
+        out.println("<html><head><meta charset='UTF-8'><title>Capsulink - Time Capsule Created</title>");
         out.println("<style>");
         out.println("body { font-family: Arial, sans-serif; margin: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }");
         out.println(".container { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; max-width: 600px; margin: 0 auto; }");
@@ -26,7 +27,8 @@ public class HelloServlet extends HttpServlet {
     }
     
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
         
         // Get form parameters
@@ -35,7 +37,7 @@ public class HelloServlet extends HttpServlet {
         String openDate = request.getParameter("openDate");
         String message = request.getParameter("message");
         
-        out.println("<html><head><title>Capsulink - Time Capsule Sealed</title>");
+        out.println("<html><head><meta charset='UTF-8'><title>Capsulink - Time Capsule Sealed</title>");
         out.println("<style>");
         out.println("body { font-family: Arial, sans-serif; margin: 40px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }");
         out.println(".container { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; max-width: 700px; margin: 0 auto; }");
