@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 9 - Database Access | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.2rem;
+        }
+        
+        .exercise-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .exercise-info h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .exercise-info p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .db-operations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .db-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+        }
+        
+        .db-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+        
+        .db-card h3 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .db-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        
+        .db-card .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            text-align: center;
+        }
+        
+        .form-container {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .db-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .db-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .db-btn.secondary {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+        }
+        
+        .db-btn.success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+        }
+        
+        .db-btn.warning {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+        }
+        
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+        
+        .info-section h2 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .info-item {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border-left: 5px solid #667eea;
+        }
+        
+        .info-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .info-item h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .info-item p {
+            color: #4a5568;
+            font-size: 1rem;
+        }
+        
+        .nav-links {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🗄️ Database Operations</h1>
+            <p>Exercise 9: MySQL Database Access via Servlets</p>
+        </div>
+        
+        <div class="exercise-info">
+            <h2>📋 Exercise Overview</h2>
+            <p><strong>Objective:</strong> Perform CRUD operations on MySQL database using Java Servlets</p>
+            <p><strong>Concepts:</strong> Database connection, SQL queries, INSERT, UPDATE, SELECT operations</p>
+            <p><strong>Theme:</strong> Manage your time capsule data in a persistent database storage</p>
+        </div>
+        
+        <div class="db-operations-grid">
+            <div class="db-card">
+                <div class="icon">📝</div>
+                <h3>Insert New Capsule</h3>
+                <p>Add a new time capsule record to the database. Store capsule details like name, description, creation date, and owner information.</p>
+                
+                <div class="form-container">
+                    <form action="http://localhost:8080/Capsulink/db1" method="post">
+                        <div class="form-group">
+                            <label for="capsuleName">📦 Capsule Name:</label>
+                            <input type="text" id="capsuleName" name="capsuleName" required placeholder="Enter capsule name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="owner">👤 Owner:</label>
+                            <input type="text" id="owner" name="owner" required placeholder="Enter owner name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description">📝 Description:</label>
+                            <textarea id="description" name="description" required placeholder="Describe your time capsule..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="db-btn success">📝 Insert Capsule</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="db-card">
+                <div class="icon">🔍</div>
+                <h3>View All Capsules</h3>
+                <p>Retrieve and display all time capsule records from the database. See a complete list of stored capsules with their details.</p>
+                
+                <div class="form-container">
+                    <p style="text-align: center; color: #4a5568; margin-bottom: 20px;">Click the button below to fetch all time capsule records from the database.</p>
+                    <a href="http://localhost:8080/Capsulink/db2" class="db-btn">🔍 View All Capsules</a>
+                </div>
+            </div>
+            
+            <div class="db-card">
+                <div class="icon">✏️</div>
+                <h3>Update Capsule</h3>
+                <p>Modify existing time capsule information in the database. Update description, owner details, or any other capsule attributes.</p>
+                
+                <div class="form-container">
+                    <form action="http://localhost:8080/Capsulink/db3" method="post">
+                        <div class="form-group">
+                            <label for="updateId">🆔 Capsule ID:</label>
+                            <input type="number" id="updateId" name="updateId" required placeholder="Enter capsule ID to update">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newDescription">📝 New Description:</label>
+                            <textarea id="newDescription" name="newDescription" required placeholder="Enter new description..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="newOwner">👤 New Owner:</label>
+                            <input type="text" id="newOwner" name="newOwner" required placeholder="Enter new owner name">
+                        </div>
+                        
+                        <button type="submit" class="db-btn warning">✏️ Update Capsule</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>🗄️ Database Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="icon">🔗</div>
+                    <h4>MySQL Connection</h4>
+                    <p>Connected to MySQL database using JDBC driver for persistent data storage</p>
+                </div>
+                <div class="info-item">
+                    <div class="icon">📊</div>
+                    <h4>CRUD Operations</h4>
+                    <p>Complete Create, Read, Update, Delete operations for time capsule management</p>
+                </div>
+                <div class="info-item">
+                    <div class="icon">🛡️</div>
+                    <h4>Data Integrity</h4>
+                    <p>Proper SQL queries with error handling and data validation</p>
+                </div>
+                <div class="info-item">
+                    <div class="icon">⚡</div>
+                    <h4>Performance</h4>
+                    <p>Optimized database queries for fast response times</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="ex6-basic-servlets.html">🔮 Basic Servlets</a>
+            <a href="ex7-session-mgmt.html">📱 Session Management</a>
+            <a href="ex8-hit-count.html">📊 Hit Count</a>
+        </div>
+    </div>
+</body>
+</html>

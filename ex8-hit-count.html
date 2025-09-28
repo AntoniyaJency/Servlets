@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 8 - User Hit Count | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.2rem;
+        }
+        
+        .exercise-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .exercise-info h2 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .exercise-info p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .hit-count-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .hit-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        
+        .hit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border-color: #fcb69f;
+        }
+        
+        .hit-card h3 {
+            color: #2d3748;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .hit-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+        }
+        
+        .hit-card .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .hit-btn {
+            background: linear-gradient(135deg, #fcb69f 0%, #ffecd2 100%);
+            color: #2d3748;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .hit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(252, 182, 159, 0.3);
+        }
+        
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 40px;
+        }
+        
+        .stats-section h2 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .stat-item {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border-left: 5px solid #fcb69f;
+        }
+        
+        .stat-item .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fcb69f;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item .label {
+            color: #4a5568;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .nav-links {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a {
+            color: #fcb69f;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .nav-links a:hover {
+            color: #ffecd2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Hit Count Analytics</h1>
+            <p>Exercise 8: User Access Tracking & Statistics</p>
+        </div>
+        
+        <div class="exercise-info">
+            <h2>📋 Exercise Overview</h2>
+            <p><strong>Objective:</strong> Track and analyze user access patterns to time capsule pages</p>
+            <p><strong>Concepts:</strong> Global hit counting, individual user tracking, session management</p>
+            <p><strong>Theme:</strong> Monitor how many times your digital time capsules are accessed</p>
+        </div>
+        
+        <div class="hit-count-grid">
+            <div class="hit-card">
+                <div class="icon">🌍</div>
+                <h3>Global Hit Counter</h3>
+                <p>Track the total number of page visits by any user across all time capsules. This gives you an overview of overall platform activity and popularity.</p>
+                <a href="http://localhost:8080/Capsulink/hit-global" class="hit-btn">🌍 View Global Stats</a>
+            </div>
+            
+            <div class="hit-card">
+                <div class="icon">👤</div>
+                <h3>Individual User Tracking</h3>
+                <p>Monitor unique user visits and track how many times each individual user has accessed your time capsule platform. Perfect for understanding user engagement.</p>
+                <a href="http://localhost:8080/Capsulink/hit-user" class="hit-btn">👤 View User Stats</a>
+            </div>
+        </div>
+        
+        <div class="stats-section">
+            <h2>📈 Analytics Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="number">0</span>
+                    <span class="label">Total Visits</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">0</span>
+                    <span class="label">Unique Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">0</span>
+                    <span class="label">Today's Visits</span>
+                </div>
+                <div class="stat-item">
+                    <span class="number">0</span>
+                    <span class="label">Active Sessions</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="ex6-basic-servlets.html">🔮 Basic Servlets</a>
+            <a href="ex7-session-mgmt.html">📱 Session Management</a>
+            <a href="ex9-database.html">🗄️ Database</a>
+        </div>
+    </div>
+</body>
+</html>

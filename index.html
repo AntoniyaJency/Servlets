@@ -1,21 +1,247 @@
-<html>
-  <title>Capsulink Launcher</title>
-  <body>
-    <h1>Capsulink - Digital Time Capsule</h1>
-    <nav>
-      <a href="http://localhost:8080/Capsulink/pricing">Pricing (Servlet)</a>
-    </nav>
-    <ul>
-      <li><a href="http://localhost:8080/Capsulink/hello">Ex6: Basic Servlet</a></li>
-      <li><a href="http://localhost:8080/Capsulink/SProg5.html">Ex7a: Cookies (set)</a></li>
-      <li><a href="http://localhost:8080/Capsulink/SProg6.html">Ex7a: Cookies (read)</a></li>
-      <li><a href="http://localhost:8080/Capsulink/HiddenForm.html">Ex7c: Hidden Form Field</a></li>
-      <li><a href="http://localhost:8080/Capsulink/Sessionlogin.html">Ex7d: HttpSession</a></li>
-      <li><a href="http://localhost:8080/Capsulink/URLRewriteForm.html">Ex7b: URL Rewriting</a></li>
-      <li><a href="http://localhost:8080/Capsulink/hit-global">Ex8: Global Hit Count</a></li>
-      <li><a href="http://localhost:8080/Capsulink/hit-user">Ex8: Per-User Hit Count</a></li>
-      <li><a href="http://localhost:8080/Capsulink/p12_db.html">Ex9: DB Access</a></li>
-    </ul>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capsulink - Digital Time Capsule Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #a0aec0;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+        
+        .nav-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-section h2 {
+            color: #2d3748;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .exercise-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .exercise-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #667eea;
+        }
+        
+        .exercise-card h3 {
+            color: #2d3748;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .exercise-card p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .exercise-card .icon {
+            font-size: 2.5rem;
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .exercise-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .exercise-links a {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .exercise-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .quick-nav {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .quick-nav h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .quick-links a {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-links a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 85, 104, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔮 Capsulink</h1>
+            <p>Digital Time Capsule Platform</p>
+            <p class="subtitle">Web Technologies Lab - Servlet Exercises</p>
+        </div>
+        
+        <div class="nav-section">
+            <h2>📚 Exercise Modules</h2>
+            <div class="exercise-grid">
+                <div class="exercise-card">
+                    <div class="icon">🔮</div>
+                    <h3>Exercise 6: Basic Servlets</h3>
+                    <p>Learn the fundamentals of servlet communication and form processing.</p>
+                    <div class="exercise-links">
+                        <a href="ex6-basic-servlets.html">📝 Create Time Capsule</a>
+                        <a href="http://localhost:8080/Capsulink/hello">🔗 Direct Servlet</a>
+                    </div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="icon">📱</div>
+                    <h3>Exercise 7: Session Management</h3>
+                    <p>Explore different session management techniques including cookies, URL rewriting, hidden forms, and HttpSession.</p>
+                    <div class="exercise-links">
+                        <a href="ex7-session-mgmt.html">📱 Session Overview</a>
+                        <a href="ex7a-cookies.html">🍪 Cookies Demo</a>
+                        <a href="ex7b-url-rewriting.html">🔗 URL Rewriting</a>
+                        <a href="ex7c-hidden-form.html">📝 Hidden Forms</a>
+                        <a href="ex7d-httpsession.html">👤 HttpSession</a>
+                    </div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="icon">📊</div>
+                    <h3>Exercise 8: Hit Count Analytics</h3>
+                    <p>Track user access patterns with global and individual hit counting systems.</p>
+                    <div class="exercise-links">
+                        <a href="ex8-hit-count.html">📊 Analytics Dashboard</a>
+                        <a href="http://localhost:8080/Capsulink/hit-global">🌍 Global Counter</a>
+                        <a href="http://localhost:8080/Capsulink/hit-user">👤 User Counter</a>
+                    </div>
+                </div>
+                
+                <div class="exercise-card">
+                    <div class="icon">🗄️</div>
+                    <h3>Exercise 9: Database Operations</h3>
+                    <p>Perform CRUD operations on MySQL database using Java Servlets.</p>
+                    <div class="exercise-links">
+                        <a href="ex9-database.html">🗄️ Database Dashboard</a>
+                        <a href="http://localhost:8080/Capsulink/db1">📝 Insert Data</a>
+                        <a href="http://localhost:8080/Capsulink/db2">🔍 View Data</a>
+                        <a href="http://localhost:8080/Capsulink/db3">✏️ Update Data</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-nav">
+            <h3>🚀 Quick Access</h3>
+            <div class="quick-links">
+                <a href="about.html">ℹ️ About</a>
+                <a href="features.html">✨ Features</a>
+                <a href="pricing.html">💰 Pricing</a>
+                <a href="http://localhost:8080/Capsulink/pricing">🔗 Pricing Servlet</a>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
 

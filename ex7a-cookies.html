@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 7a - Cookies Session | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffecd2, #fcb69f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .demo-section {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #fcb69f;
+        }
+        
+        .demo-section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .demo-section p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #fcb69f;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(252, 182, 159, 0.1);
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #fcb69f 0%, #ffecd2 100%);
+            color: #2d3748;
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-links a {
+            color: #fcb69f;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #ffecd2;
+        }
+        
+        .info-box {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #234e52;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🍪 Cookie Session Management</h1>
+            <p>Exercise 7a: Using HTTP Cookies for Session Data</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📋 Cookie Demo Overview</h2>
+            <p><strong>How it works:</strong> Cookies store small pieces of data on the client's browser that persist across requests.</p>
+            <p><strong>Use case:</strong> Perfect for remembering user preferences, login status, and time capsule settings.</p>
+            <p><strong>Demo:</strong> Set a cookie with your time capsule preferences, then read it back in another session.</p>
+        </div>
+        
+        <div class="form-container">
+            <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">🍪 Set Cookie Preferences</h3>
+            <form action="http://localhost:8080/Capsulink/SP5" method="post">
+                <div class="form-group">
+                    <label for="username">👤 Username:</label>
+                    <input type="text" id="username" name="username" required placeholder="Enter your username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="theme">🎨 Preferred Theme:</label>
+                    <input type="text" id="theme" name="theme" required placeholder="e.g., Vintage, Modern, Classic">
+                </div>
+                
+                <div class="form-group">
+                    <label for="capsuleType">📦 Capsule Type:</label>
+                    <input type="text" id="capsuleType" name="capsuleType" required placeholder="e.g., Personal, Family, Business">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">🍪 Set Cookie Data</button>
+            </form>
+        </div>
+        
+        <div class="form-container">
+            <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">📖 Read Cookie Data</h3>
+            <p style="text-align: center; color: #4a5568; margin-bottom: 20px;">Click the button below to retrieve and display your stored cookie data.</p>
+            <div class="btn-group">
+                <a href="http://localhost:8080/Capsulink/SP6" class="btn btn-secondary">📖 Read Cookies</a>
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>💡 How Cookies Work:</strong><br>
+            1. Server sends cookie data to browser<br>
+            2. Browser stores cookie locally<br>
+            3. Browser automatically sends cookie with future requests<br>
+            4. Server can read and use cookie data
+        </div>
+        
+        <div class="nav-links">
+            <a href="ex7-session-mgmt.html">🔙 Session Management</a>
+            <a href="ex7b-url-rewriting.html">➡️ URL Rewriting</a>
+            <a href="index.html">🏠 Home</a>
+        </div>
+    </div>
+</body>
+</html>

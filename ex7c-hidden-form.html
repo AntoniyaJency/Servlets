@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 7c - Hidden Form Fields | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #d299c2, #fef9d7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .demo-section {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #d299c2;
+        }
+        
+        .demo-section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .demo-section p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #d299c2;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(210, 153, 194, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+            color: #2d3748;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(210, 153, 194, 0.3);
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-links a {
+            color: #d299c2;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #fef9d7;
+        }
+        
+        .info-box {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #234e52;
+        }
+        
+        .hidden-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            color: #856404;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📝 Hidden Form Fields</h1>
+            <p>Exercise 7c: Session Management via Hidden Form Fields</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📋 Hidden Form Fields Overview</h2>
+            <p><strong>How it works:</strong> Session data is stored in hidden form fields and passed with form submissions.</p>
+            <p><strong>Use case:</strong> Multi-step forms, shopping carts, and wizard-style applications.</p>
+            <p><strong>Demo:</strong> Create a multi-step time capsule with hidden session data.</p>
+        </div>
+        
+        <div class="form-container">
+            <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">📝 Multi-Step Time Capsule Creation</h3>
+            <form action="http://localhost:8080/Capsulink/SP11" method="post">
+                <!-- Hidden session fields -->
+                <input type="hidden" name="sessionId" value="SESSION_<?php echo time(); ?>">
+                <input type="hidden" name="step" value="1">
+                <input type="hidden" name="timestamp" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                
+                <div class="form-group">
+                    <label for="capsuleName">📦 Capsule Name:</label>
+                    <input type="text" id="capsuleName" name="capsuleName" required placeholder="Enter capsule name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">📝 Description:</label>
+                    <textarea id="description" name="description" required placeholder="Describe your time capsule..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="openDate">📅 Open Date:</label>
+                    <input type="date" id="openDate" name="openDate" required>
+                </div>
+                
+                <button type="submit" class="btn">📝 Create Capsule (Step 1)</button>
+            </form>
+            
+            <div class="hidden-info">
+                <strong>🔍 Hidden Fields in this form:</strong><br>
+                • sessionId: Unique session identifier<br>
+                • step: Current step number (1)<br>
+                • timestamp: Form submission time
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>💡 How Hidden Form Fields Work:</strong><br>
+            1. Server generates session data and embeds it in hidden fields<br>
+            2. User fills visible form fields<br>
+            3. Form submission includes both visible and hidden data<br>
+            4. Server processes data and maintains session state
+        </div>
+        
+        <div class="nav-links">
+            <a href="ex7-session-mgmt.html">🔙 Session Management</a>
+            <a href="ex7b-url-rewriting.html">⬅️ URL Rewriting</a>
+            <a href="ex7d-httpsession.html">➡️ HttpSession</a>
+            <a href="index.html">🏠 Home</a>
+        </div>
+    </div>
+</body>
+</html>

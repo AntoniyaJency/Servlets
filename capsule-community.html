@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Hub - Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #89f7fe, #66a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .community-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .main-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card h2 {
+            color: #2d3748;
+            margin-bottom: 25px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        .post-form {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .post-input {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: white;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+        
+        .post-input:focus {
+            outline: none;
+            border-color: #66a6ff;
+            box-shadow: 0 0 0 3px rgba(102, 166, 255, 0.1);
+        }
+        
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .media-upload-btn {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 15px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .media-upload-btn:hover {
+            border-color: #66a6ff;
+            background: #f0f9ff;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #66a6ff 0%, #89f7fe 100%);
+            color: #2d3748;
+        }
+        
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .post {
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 25px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .post:hover {
+            border-color: #66a6ff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #66a6ff, #89f7fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 15px;
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .post-time {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .post-content {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .post-media {
+            margin-bottom: 20px;
+        }
+        
+        .post-media img {
+            width: 100%;
+            border-radius: 10px;
+            max-height: 300px;
+            object-fit: cover;
+        }
+        
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .post-actions-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .action-btn:hover {
+            background: #f7fafc;
+        }
+        
+        .action-btn.liked {
+            color: #e53e3e;
+        }
+        
+        .likes-count {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        
+        .trending-list {
+            list-style: none;
+        }
+        
+        .trending-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.3s ease;
+        }
+        
+        .trending-item:hover {
+            background: #f7fafc;
+        }
+        
+        .trending-rank {
+            background: linear-gradient(135deg, #66a6ff, #89f7fe);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .trending-info {
+            flex: 1;
+        }
+        
+        .trending-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+        
+        .trending-stats {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .user-card {
+            text-align: center;
+            padding: 25px;
+        }
+        
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #66a6ff, #89f7fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2rem;
+            margin: 0 auto 15px;
+        }
+        
+        .user-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #66a6ff;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .nav-links {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-links a {
+            color: #66a6ff;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 20px;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+        }
+        
+        .nav-links a:hover {
+            color: #89f7fe;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Community Hub</h1>
+            <p>Connect, share, and discover time capsules from around the world</p>
+        </div>
+        
+        <div class="community-grid">
+            <div class="main-feed">
+                <div class="card">
+                    <h2>💬 Share Your Story</h2>
+                    <div class="post-form">
+                        <textarea class="post-input" placeholder="What's happening in your time capsule journey? Share updates, ask questions, or inspire others..."></textarea>
+                        <div class="post-actions">
+                            <div class="media-upload-btn">
+                                <span>📷</span>
+                                <span>Photo</span>
+                            </div>
+                            <div class="media-upload-btn">
+                                <span>🎥</span>
+                                <span>Video</span>
+                            </div>
+                            <div class="media-upload-btn">
+                                <span>📄</span>
+                                <span>Document</span>
+                            </div>
+                            <button class="btn btn-primary">🚀 Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="user-avatar">SJ</div>
+                        <div class="user-info">
+                            <div class="user-name">Sarah Johnson</div>
+                            <div class="post-time">2 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        Just opened my family reunion capsule from 2020! The memories are so precious. My kids couldn't believe how much they've grown. Time really does fly! 💕
+                    </div>
+                    <div class="post-media">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmOWZmIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2YTZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkZhbWlseSBQaG90bzwvdGV4dD48L3N2Zz4=" alt="Family Photo">
+                    </div>
+                    <div class="post-stats">
+                        <div class="likes-count">❤️ 24 likes • 8 comments</div>
+                        <div class="post-actions-buttons">
+                            <button class="action-btn">❤️ Like</button>
+                            <button class="action-btn">💬 Comment</button>
+                            <button class="action-btn">🔄 Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="user-avatar">AC</div>
+                        <div class="user-info">
+                            <div class="user-name">Alex Chen</div>
+                            <div class="post-time">5 hours ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        Creating my graduation capsule today! Writing letters to my future self about career goals, relationships, and personal growth. It's amazing how much clarity comes from putting thoughts into words. 🎓✨
+                    </div>
+                    <div class="post-stats">
+                        <div class="likes-count">❤️ 18 likes • 5 comments</div>
+                        <div class="post-actions-buttons">
+                            <button class="action-btn">❤️ Like</button>
+                            <button class="action-btn">💬 Comment</button>
+                            <button class="action-btn">🔄 Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="user-avatar">MR</div>
+                        <div class="user-info">
+                            <div class="user-name">Maria Rodriguez</div>
+                            <div class="post-time">1 day ago</div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        Just discovered the most beautiful travel capsule from @DavidKim! The photos from his world tour are absolutely stunning. This platform is such a treasure trove of human stories and experiences. 🌍✈️
+                    </div>
+                    <div class="post-media">
+                        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmVmOWNmIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2YTZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlRyYXZlbCBQaG90bzwvdGV4dD48L3N2Zz4=" alt="Travel Photo">
+                    </div>
+                    <div class="post-stats">
+                        <div class="likes-count">❤️ 31 likes • 12 comments</div>
+                        <div class="post-actions-buttons">
+                            <button class="action-btn">❤️ Like</button>
+                            <button class="action-btn">💬 Comment</button>
+                            <button class="action-btn">🔄 Share</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <h2>🔥 Trending Topics</h2>
+                    <ul class="trending-list">
+                        <li class="trending-item">
+                            <div class="trending-rank">1</div>
+                            <div class="trending-info">
+                                <div class="trending-title">#FamilyMemories</div>
+                                <div class="trending-stats">2.3k posts • +15% today</div>
+                            </div>
+                        </li>
+                        <li class="trending-item">
+                            <div class="trending-rank">2</div>
+                            <div class="trending-info">
+                                <div class="trending-title">#Graduation2024</div>
+                                <div class="trending-stats">1.8k posts • +22% today</div>
+                            </div>
+                        </li>
+                        <li class="trending-item">
+                            <div class="trending-rank">3</div>
+                            <div class="trending-info">
+                                <div class="trending-title">#TravelStories</div>
+                                <div class="trending-stats">1.5k posts • +8% today</div>
+                            </div>
+                        </li>
+                        <li class="trending-item">
+                            <div class="trending-rank">4</div>
+                            <div class="trending-info">
+                                <div class="trending-title">#LoveStory</div>
+                                <div class="trending-stats">1.2k posts • +12% today</div>
+                            </div>
+                        </li>
+                        <li class="trending-item">
+                            <div class="trending-rank">5</div>
+                            <div class="trending-info">
+                                <div class="trending-title">#CreativeJourney</div>
+                                <div class="trending-stats">987 posts • +5% today</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h2>👤 Your Profile</h2>
+                    <div class="user-card">
+                        <div class="user-avatar-large">ME</div>
+                        <div class="user-name">My Profile</div>
+                        <div style="color: #718096; font-size: 0.9rem; margin-bottom: 20px;">Member since 2023</div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">24</span>
+                                <span class="stat-label">Capsules</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">156</span>
+                                <span class="stat-label">Followers</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">89</span>
+                                <span class="stat-label">Following</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">1.2k</span>
+                                <span class="stat-label">Likes</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 20px;">✏️ Edit Profile</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>🌟 Suggested Connections</h2>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 10px;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; font-size: 1rem;">DK</div>
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div style="font-weight: 600; color: #2d3748;">David Kim</div>
+                                <div style="font-size: 0.8rem; color: #718096;">Travel enthusiast</div>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Follow</button>
+                        </div>
+                        <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 10px;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; font-size: 1rem;">EJ</div>
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div style="font-weight: 600; color: #2d3748;">Emma & James</div>
+                                <div style="font-size: 0.8rem; color: #718096;">Love story creators</div>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Follow</button>
+                        </div>
+                        <div style="display: flex; align-items: center; padding: 15px; background: #f7fafc; border-radius: 10px;">
+                            <div class="user-avatar" style="width: 40px; height: 40px; font-size: 1rem;">TC</div>
+                            <div style="flex: 1; margin-left: 10px;">
+                                <div style="font-weight: 600; color: #2d3748;">TechCorp Team</div>
+                                <div style="font-size: 0.8rem; color: #718096;">Business storytellers</div>
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Follow</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="capsule-gallery.html">🖼️ Gallery</a>
+            <a href="capsule-builder.html">🔨 Builder</a>
+            <a href="capsule-scheduler.html">⏰ Scheduler</a>
+            <a href="capsule-analytics.html">📊 Analytics</a>
+        </div>
+    </div>
+    
+    <script>
+        // Like functionality
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            if (btn.textContent.includes('❤️')) {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('liked');
+                    if (this.classList.contains('liked')) {
+                        this.style.color = '#e53e3e';
+                    } else {
+                        this.style.color = '';
+                    }
+                });
+            }
+        });
+        
+        // Post form functionality
+        const postInput = document.querySelector('.post-input');
+        const shareBtn = document.querySelector('.btn-primary');
+        
+        shareBtn.addEventListener('click', function() {
+            const content = postInput.value.trim();
+            if (content) {
+                alert('🚀 Post shared successfully!\n\nYour story has been added to the community feed.');
+                postInput.value = '';
+            } else {
+                alert('Please write something to share!');
+            }
+        });
+        
+        // Media upload buttons
+        document.querySelectorAll('.media-upload-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const mediaType = this.textContent.trim();
+                alert(`📤 ${mediaType} upload feature would open here!\n\nYou can drag & drop files or browse to select.`);
+            });
+        });
+        
+        // Trending topics interaction
+        document.querySelectorAll('.trending-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const topic = this.querySelector('.trending-title').textContent;
+                alert(`🔍 Showing all posts tagged with ${topic}\n\nThis would filter the feed to show related content.`);
+            });
+        });
+        
+        // User profile interactions
+        document.querySelectorAll('.user-avatar').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                const userName = this.parentElement.querySelector('.user-name')?.textContent || 'User';
+                alert(`👤 Viewing ${userName}'s profile\n\nThis would show their complete profile, capsules, and activity.`);
+            });
+        });
+        
+        // Follow buttons
+        document.querySelectorAll('button:contains("Follow")').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.textContent = 'Following';
+                this.style.background = '#48bb78';
+                this.style.color = 'white';
+                setTimeout(() => {
+                    this.textContent = 'Follow';
+                    this.style.background = '';
+                    this.style.color = '';
+                }, 2000);
+            });
+        });
+        
+        // Simulate real-time updates
+        function addNewPost() {
+            const mainFeed = document.querySelector('.main-feed');
+            const newPost = document.createElement('div');
+            newPost.className = 'post';
+            newPost.innerHTML = `
+                <div class="post-header">
+                    <div class="user-avatar">NM</div>
+                    <div class="user-info">
+                        <div class="user-name">New Member</div>
+                        <div class="post-time">Just now</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    Just joined the Capsulink community! Excited to start my time capsule journey and connect with all of you! 🌟
+                </div>
+                <div class="post-stats">
+                    <div class="likes-count">❤️ 0 likes • 0 comments</div>
+                    <div class="post-actions-buttons">
+                        <button class="action-btn">❤️ Like</button>
+                        <button class="action-btn">💬 Comment</button>
+                        <button class="action-btn">🔄 Share</button>
+                    </div>
+                </div>
+            `;
+            
+            mainFeed.insertBefore(newPost, mainFeed.children[1]);
+            
+            // Add like functionality to new post
+            newPost.querySelector('.action-btn').addEventListener('click', function() {
+                this.classList.toggle('liked');
+                if (this.classList.contains('liked')) {
+                    this.style.color = '#e53e3e';
+                } else {
+                    this.style.color = '';
+                }
+            });
+        }
+        
+        // Add a new post every 30 seconds (for demo)
+        setInterval(addNewPost, 30000);
+    </script>
+</body>
+</html>

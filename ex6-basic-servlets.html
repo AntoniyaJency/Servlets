@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 6 - Basic Servlets | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .exercise-info {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .exercise-info h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .exercise-info p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-links a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #764ba2;
+        }
+        
+        .demo-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #856404;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔮 Capsulink Servlet Lab</h1>
+            <p>Exercise 6: Basic Servlet Communication</p>
+        </div>
+        
+        <div class="exercise-info">
+            <h2>📋 Exercise Overview</h2>
+            <p><strong>Objective:</strong> Demonstrate basic servlet invocation from HTML forms</p>
+            <p><strong>Concepts:</strong> HTML form submission, Servlet request handling, Response generation</p>
+            <p><strong>Theme:</strong> Create a time capsule message that gets processed by our servlet</p>
+        </div>
+        
+        <div class="form-container">
+            <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">📝 Create Your Digital Time Capsule</h3>
+            <form action="http://localhost:8080/Capsulink/hello" method="post">
+                <div class="form-group">
+                    <label for="sender">👤 Your Name:</label>
+                    <input type="text" id="sender" name="sender" required placeholder="Enter your name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="recipient">🎯 Recipient Name:</label>
+                    <input type="text" id="recipient" name="recipient" required placeholder="Who will receive this message?">
+                </div>
+                
+                <div class="form-group">
+                    <label for="openDate">📅 Open Date:</label>
+                    <input type="date" id="openDate" name="openDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">💌 Your Message:</label>
+                    <textarea id="message" name="message" rows="4" required placeholder="Write your time capsule message here..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">🚀 Seal Time Capsule</button>
+            </form>
+            
+            <div class="demo-note">
+                <strong>Demo Note:</strong> This form will send data to our HelloServlet, which will process and respond with a confirmation message.
+            </div>
+        </div>
+        
+        <div class="nav-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="ex7-session-mgmt.html">📱 Session Management</a>
+            <a href="ex8-hit-count.html">📊 Hit Count</a>
+            <a href="ex9-database.html">🗄️ Database</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 7b - URL Rewriting | Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #a8edea, #fed6e3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+        
+        .demo-section {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #a8edea;
+        }
+        
+        .demo-section h2 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .demo-section p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .form-container {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f7fafc;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #a8edea;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(168, 237, 234, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #2d3748;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(168, 237, 234, 0.3);
+        }
+        
+        .nav-links {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .nav-links a {
+            color: #a8edea;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #fed6e3;
+        }
+        
+        .info-box {
+            background: #e6fffa;
+            border: 1px solid #81e6d9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            color: #234e52;
+        }
+        
+        .url-example {
+            background: #f0f4f8;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            color: #2d3748;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 URL Rewriting Session</h1>
+            <p>Exercise 7b: Session Management via URL Parameters</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>📋 URL Rewriting Overview</h2>
+            <p><strong>How it works:</strong> Session data is embedded directly in the URL as parameters.</p>
+            <p><strong>Use case:</strong> When cookies are disabled or for bookmarkable sessions.</p>
+            <p><strong>Demo:</strong> Pass session information through URL parameters to maintain state.</p>
+        </div>
+        
+        <div class="form-container">
+            <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">🔗 URL Rewriting Demo</h3>
+            <form action="http://localhost:8080/Capsulink/SP8" method="post">
+                <div class="form-group">
+                    <label for="sessionId">🆔 Session ID:</label>
+                    <input type="text" id="sessionId" name="sessionId" required placeholder="Enter session identifier">
+                </div>
+                
+                <div class="form-group">
+                    <label for="userId">👤 User ID:</label>
+                    <input type="text" id="userId" name="userId" required placeholder="Enter user identifier">
+                </div>
+                
+                <div class="form-group">
+                    <label for="capsuleId">📦 Capsule ID:</label>
+                    <input type="text" id="capsuleId" name="capsuleId" required placeholder="Enter capsule identifier">
+                </div>
+                
+                <button type="submit" class="btn">🔗 Process with URL Rewriting</button>
+            </form>
+            
+            <div class="url-example">
+                <strong>Example URL with parameters:</strong><br>
+                http://localhost:8080/Capsulink/SP8?sessionId=ABC123&userId=USER456&capsuleId=CAP789
+            </div>
+        </div>
+        
+        <div class="info-box">
+            <strong>💡 How URL Rewriting Works:</strong><br>
+            1. Server generates unique session identifier<br>
+            2. Session data is encoded in URL parameters<br>
+            3. Client includes parameters in subsequent requests<br>
+            4. Server decodes parameters to maintain session state
+        </div>
+        
+        <div class="nav-links">
+            <a href="ex7-session-mgmt.html">🔙 Session Management</a>
+            <a href="ex7a-cookies.html">⬅️ Cookies</a>
+            <a href="ex7c-hidden-form.html">➡️ Hidden Form</a>
+            <a href="index.html">🏠 Home</a>
+        </div>
+    </div>
+</body>
+</html>

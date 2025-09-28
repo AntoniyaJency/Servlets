@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Capsule Builder - Capsulink</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff9a9e, #fecfef);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .builder-container {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 25px;
+            height: calc(100vh - 200px);
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+        
+        .sidebar h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+        
+        .canvas-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+        
+        .canvas {
+            min-height: 600px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            background: #f7fafc;
+            position: relative;
+        }
+        
+        .canvas.drag-over {
+            border-color: #ff9a9e;
+            background: #fff5f5;
+        }
+        
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .template-card {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .template-card:hover {
+            border-color: #ff9a9e;
+            background: #fff5f5;
+            transform: translateY(-2px);
+        }
+        
+        .template-card .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .template-card .name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #4a5568;
+        }
+        
+        .media-upload {
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .media-upload:hover {
+            border-color: #ff9a9e;
+            background: #fff5f5;
+        }
+        
+        .media-upload.drag-over {
+            border-color: #ff9a9e;
+            background: #fff5f5;
+        }
+        
+        .media-item {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .media-item .icon {
+            font-size: 1.5rem;
+        }
+        
+        .media-item .info {
+            flex: 1;
+        }
+        
+        .media-item .name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        .media-item .size {
+            font-size: 0.8rem;
+            color: #718096;
+        }
+        
+        .canvas-element {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: move;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .canvas-element:hover {
+            border-color: #ff9a9e;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .canvas-element.selected {
+            border-color: #ff9a9e;
+            box-shadow: 0 0 0 3px rgba(255, 154, 158, 0.2);
+        }
+        
+        .element-controls {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff9a9e;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .canvas-element:hover .element-controls {
+            opacity: 1;
+        }
+        
+        .text-element {
+            min-height: 50px;
+        }
+        
+        .image-element {
+            text-align: center;
+        }
+        
+        .image-element img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        .video-element {
+            text-align: center;
+        }
+        
+        .video-element video {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        
+        .properties-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #2d3748;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            background: #f7fafc;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff9a9e;
+            background: #ffffff;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #2d3748;
+        }
+        
+        .btn-secondary {
+            background: #f7fafc;
+            color: #4a5568;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .preview-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .preview-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .color-option.selected {
+            border-color: #2d3748;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔨 Advanced Capsule Builder</h1>
+            <p>Create stunning time capsules with drag-and-drop ease</p>
+        </div>
+        
+        <div class="builder-container">
+            <!-- Left Sidebar - Templates & Media -->
+            <div class="sidebar">
+                <h3>🎨 Templates</h3>
+                <div class="template-grid">
+                    <div class="template-card" data-template="personal">
+                        <div class="icon">👤</div>
+                        <div class="name">Personal</div>
+                    </div>
+                    <div class="template-card" data-template="family">
+                        <div class="icon">👨‍👩‍👧‍👦</div>
+                        <div class="name">Family</div>
+                    </div>
+                    <div class="template-card" data-template="business">
+                        <div class="icon">🏢</div>
+                        <div class="name">Business</div>
+                    </div>
+                    <div class="template-card" data-template="creative">
+                        <div class="icon">🎨</div>
+                        <div class="name">Creative</div>
+                    </div>
+                    <div class="template-card" data-template="travel">
+                        <div class="icon">✈️</div>
+                        <div class="name">Travel</div>
+                    </div>
+                    <div class="template-card" data-template="love">
+                        <div class="icon">💕</div>
+                        <div class="name">Love Story</div>
+                    </div>
+                </div>
+                
+                <h3>📁 Media Library</h3>
+                <div class="media-upload" id="mediaUpload">
+                    <div class="icon">📤</div>
+                    <div>Drag & Drop Files</div>
+                    <div style="font-size: 0.8rem; color: #718096;">or click to browse</div>
+                </div>
+                
+                <div id="mediaList">
+                    <div class="media-item">
+                        <div class="icon">📷</div>
+                        <div class="info">
+                            <div class="name">family-photo.jpg</div>
+                            <div class="size">2.3 MB</div>
+                        </div>
+                    </div>
+                    <div class="media-item">
+                        <div class="icon">🎥</div>
+                        <div class="info">
+                            <div class="name">vacation-video.mp4</div>
+                            <div class="size">15.7 MB</div>
+                        </div>
+                    </div>
+                    <div class="media-item">
+                        <div class="icon">🎵</div>
+                        <div class="info">
+                            <div class="name">voice-memo.mp3</div>
+                            <div class="size">3.2 MB</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center - Canvas -->
+            <div class="canvas-container">
+                <h3 style="color: #2d3748; margin-bottom: 20px; text-align: center;">🎯 Design Canvas</h3>
+                <div class="canvas" id="canvas">
+                    <div style="text-align: center; color: #718096; padding: 50px;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">🎨</div>
+                        <div>Start by selecting a template or dragging elements here</div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="previewCapsule()">👁️ Preview</button>
+                    <button class="btn btn-secondary" onclick="saveCapsule()">💾 Save Draft</button>
+                    <button class="btn btn-primary" onclick="publishCapsule()">🚀 Publish</button>
+                </div>
+            </div>
+            
+            <!-- Right Sidebar - Properties -->
+            <div class="properties-panel">
+                <h3>⚙️ Properties</h3>
+                <div class="form-group">
+                    <label>Capsule Title</label>
+                    <input type="text" id="capsuleTitle" placeholder="Enter capsule title">
+                </div>
+                
+                <div class="form-group">
+                    <label>Open Date</label>
+                    <input type="date" id="openDate">
+                </div>
+                
+                <div class="form-group">
+                    <label>Privacy</label>
+                    <select id="privacy">
+                        <option value="private">🔒 Private</option>
+                        <option value="friends">👥 Friends Only</option>
+                        <option value="public">🌍 Public</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Background Color</label>
+                    <div class="color-picker">
+                        <div class="color-option selected" style="background: #f7fafc;" data-color="#f7fafc"></div>
+                        <div class="color-option" style="background: #fff5f5;" data-color="#fff5f5"></div>
+                        <div class="color-option" style="background: #f0fff4;" data-color="#f0fff4"></div>
+                        <div class="color-option" style="background: #fefce8;" data-color="#fefce8"></div>
+                        <div class="color-option" style="background: #f0f9ff;" data-color="#f0f9ff"></div>
+                        <div class="color-option" style="background: #faf5ff;" data-color="#faf5ff"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Font Size</label>
+                    <select id="fontSize">
+                        <option value="14px">Small</option>
+                        <option value="16px" selected>Medium</option>
+                        <option value="18px">Large</option>
+                        <option value="20px">Extra Large</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Tags</label>
+                    <input type="text" id="tags" placeholder="family, memories, 2024">
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="description" rows="3" placeholder="Describe your time capsule..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Preview Modal -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-content">
+            <button class="close-btn" onclick="closePreview()">&times;</button>
+            <div id="previewContent"></div>
+        </div>
+    </div>
+    
+    <script>
+        let selectedElement = null;
+        let elementCounter = 0;
+        
+        // Template selection
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const template = this.dataset.template;
+                loadTemplate(template);
+            });
+        });
+        
+        // Color picker
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                document.getElementById('canvas').style.background = this.dataset.color;
+            });
+        });
+        
+        // Media upload
+        const mediaUpload = document.getElementById('mediaUpload');
+        
+        mediaUpload.addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.multiple = true;
+            input.accept = 'image/*,video/*,audio/*';
+            input.click();
+            
+            input.addEventListener('change', handleFiles);
+        });
+        
+        mediaUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            mediaUpload.classList.add('drag-over');
+        });
+        
+        mediaUpload.addEventListener('dragleave', () => {
+            mediaUpload.classList.remove('drag-over');
+        });
+        
+        mediaUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            mediaUpload.classList.remove('drag-over');
+            handleFiles(e);
+        });
+        
+        function handleFiles(e) {
+            const files = e.target.files || e.dataTransfer.files;
+            Array.from(files).forEach(file => {
+                addMediaToLibrary(file);
+            });
+        }
+        
+        function addMediaToLibrary(file) {
+            const mediaList = document.getElementById('mediaList');
+            const mediaItem = document.createElement('div');
+            mediaItem.className = 'media-item';
+            mediaItem.draggable = true;
+            
+            const icon = getFileIcon(file.type);
+            const size = (file.size / 1024 / 1024).toFixed(1) + ' MB';
+            
+            mediaItem.innerHTML = `
+                <div class="icon">${icon}</div>
+                <div class="info">
+                    <div class="name">${file.name}</div>
+                    <div class="size">${size}</div>
+                </div>
+            `;
+            
+            mediaItem.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', JSON.stringify({
+                    type: file.type,
+                    name: file.name,
+                    size: size
+                }));
+            });
+            
+            mediaList.appendChild(mediaItem);
+        }
+        
+        function getFileIcon(type) {
+            if (type.startsWith('image/')) return '📷';
+            if (type.startsWith('video/')) return '🎥';
+            if (type.startsWith('audio/')) return '🎵';
+            return '📄';
+        }
+        
+        // Canvas drag and drop
+        const canvas = document.getElementById('canvas');
+        
+        canvas.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            canvas.classList.add('drag-over');
+        });
+        
+        canvas.addEventListener('dragleave', () => {
+            canvas.classList.remove('drag-over');
+        });
+        
+        canvas.addEventListener('drop', (e) => {
+            e.preventDefault();
+            canvas.classList.remove('drag-over');
+            
+            const data = e.dataTransfer.getData('text/plain');
+            if (data) {
+                const fileInfo = JSON.parse(data);
+                addElementToCanvas('media', fileInfo);
+            }
+        });
+        
+        function loadTemplate(template) {
+            canvas.innerHTML = '';
+            
+            const templates = {
+                personal: [
+                    { type: 'text', content: 'Dear Future Me...', style: 'font-size: 24px; font-weight: bold; text-align: center;' },
+                    { type: 'text', content: 'Today I am writing this letter to you...', style: 'margin-top: 20px;' }
+                ],
+                family: [
+                    { type: 'text', content: 'Our Family Memories', style: 'font-size: 24px; font-weight: bold; text-align: center;' },
+                    { type: 'text', content: 'This capsule contains precious moments from our family...', style: 'margin-top: 20px;' }
+                ],
+                business: [
+                    { type: 'text', content: 'Company Milestones', style: 'font-size: 24px; font-weight: bold; text-align: center;' },
+                    { type: 'text', content: 'Documenting our journey from startup to success...', style: 'margin-top: 20px;' }
+                ]
+            };
+            
+            if (templates[template]) {
+                templates[template].forEach(element => {
+                    addElementToCanvas(element.type, element);
+                });
+            }
+        }
+        
+        function addElementToCanvas(type, data) {
+            elementCounter++;
+            const element = document.createElement('div');
+            element.className = 'canvas-element';
+            element.dataset.elementId = elementCounter;
+            
+            if (type === 'text') {
+                element.className += ' text-element';
+                element.innerHTML = `
+                    <div class="element-controls" onclick="deleteElement(this)">×</div>
+                    <div contenteditable="true" style="${data.style || ''}">${data.content}</div>
+                `;
+            } else if (type === 'media') {
+                element.className += ' image-element';
+                element.innerHTML = `
+                    <div class="element-controls" onclick="deleteElement(this)">×</div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">${getFileIcon(data.type)}</div>
+                        <div style="font-weight: 600;">${data.name}</div>
+                        <div style="font-size: 0.8rem; color: #718096;">${data.size}</div>
+                    </div>
+                `;
+            }
+            
+            element.addEventListener('click', (e) => {
+                e.stopPropagation();
+                selectElement(element);
+            });
+            
+            canvas.appendChild(element);
+        }
+        
+        function selectElement(element) {
+            document.querySelectorAll('.canvas-element').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedElement = element;
+        }
+        
+        function deleteElement(control) {
+            control.parentElement.remove();
+        }
+        
+        function previewCapsule() {
+            const previewContent = document.getElementById('previewContent');
+            const canvasContent = document.getElementById('canvas').innerHTML;
+            
+            previewContent.innerHTML = `
+                <h2 style="text-align: center; margin-bottom: 30px;">📦 ${document.getElementById('capsuleTitle').value || 'Untitled Capsule'}</h2>
+                <div style="border: 2px solid #e2e8f0; border-radius: 15px; padding: 30px; background: #f7fafc;">
+                    ${canvasContent}
+                </div>
+                <div style="text-align: center; margin-top: 30px; color: #718096;">
+                    <p>📅 Opens on: ${document.getElementById('openDate').value || 'Not set'}</p>
+                    <p>🔒 Privacy: ${document.getElementById('privacy').options[document.getElementById('privacy').selectedIndex].text}</p>
+                </div>
+            `;
+            
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+        
+        function closePreview() {
+            document.getElementById('previewModal').style.display = 'none';
+        }
+        
+        function saveCapsule() {
+            alert('💾 Capsule saved as draft!');
+        }
+        
+        function publishCapsule() {
+            alert('🚀 Capsule published successfully!');
+        }
+        
+        // Add text element button (could be added to sidebar)
+        function addTextElement() {
+            addElementToCanvas('text', { content: 'Click to edit text...', style: '' });
+        }
+        
+        // Click outside to deselect
+        canvas.addEventListener('click', (e) => {
+            if (e.target === canvas) {
+                document.querySelectorAll('.canvas-element').forEach(el => el.classList.remove('selected'));
+                selectedElement = null;
+            }
+        });
+    </script>
+</body>
+</html>
